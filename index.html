@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>xD.fi Debian Repository</title>
+</head>
+<body>
+<h1>xD.fi Debian Repository</h1>
+
+<h2>Howto</h2>
+<pre>
+wget -O - packages.xd.fi/install.sh |sudo sh
+
+OR
+
+curl packages.xd.fi/install.sh |sudo sh
+
+OR
+
+# gpg --keyserver pgp.mit.edu --recv-keys 0x345FDD33
+# gpg --armor --export 0x345FDD33 |apt-key add -
+
+# echo deb http://packages.xd.fi/debian/ &lt;squeeze|wheezy&gt; main contrib non-free >/etc/apt/sources.list.d/050-packagesxdfi.list
+# apt-get update
+</pre>
+</body>
+</html>
