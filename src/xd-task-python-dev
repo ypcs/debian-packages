@@ -8,7 +8,7 @@ Package: xd-task-python-dev
 Version: 1.0
 Maintainer: Ville Korhonen <ville@xd.fi>
 # Pre-Depends: <comma-separated list of packages>
-Depends: python-pip python-virtualenv virtualenvwrapper
+Depends: python-pip, python-virtualenv, virtualenvwrapper
 # Recommends: <comma-separated list of packages>
 # Suggests: <comma-separated list of packages>
 # Provides: <comma-separated list of packages>

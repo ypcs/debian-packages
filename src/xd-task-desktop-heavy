@@ -8,7 +8,7 @@ Package: xd-task-desktop-heavy
 Version: 1.0
 Maintainer: Ville Korhonen <ville@xd.fi>
 # Pre-Depends: <comma-separated list of packages>
-Depends: xd-task-desktop-core
+Depends: xd-task-desktop-core, task-gnome-desktop, gedit, gedit-plugins, network-manager-gnome, network-manager-iodine-gnome, network-manager-openconnect-gnome, network-manager-openvpn-gnome, network-manager-pptp-gnome, network-manager-vpnc-gnome
 # Recommends: <comma-separated list of packages>
 # Suggests: <comma-separated list of packages>
 # Provides: <comma-separated list of packages>

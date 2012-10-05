@@ -8,7 +8,7 @@ Package: xd-task-secure
 Version: 1.0
 Maintainer: Ville Korhonen <ville@xd.fi>
 # Pre-Depends: <comma-separated list of packages>
-# Depends: <comma-separated list of packages>
+Depends: clamav, apparmor, apparmor-profiles, apparmor-utils, pwgen, privoxy, tor
 # Recommends: <comma-separated list of packages>
 # Suggests: <comma-separated list of packages>
 # Provides: <comma-separated list of packages>

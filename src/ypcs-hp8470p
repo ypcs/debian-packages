@@ -4,12 +4,12 @@ Priority: optional
 Homepage: https://github.com/ypcs/debian-packages/
 Standards-Version: 3.9.2
 
-Package: xd-core
+Package: ypcs-hp8470p
 Version: 1.0
 Maintainer: Ville Korhonen <ville@xd.fi>
 # Pre-Depends: <comma-separated list of packages>
-Depends: git, firmware-linux, firmware-linux-nonfree, screen, unrar, unzip, uptimed
-Recommends: bc
+Depends: ypcs-laptop, firmware-iwlwifi, xd-task-graphics-amd
+# Recommends: <comma-separated list of packages>
 # Suggests: <comma-separated list of packages>
 # Provides: <comma-separated list of packages>
 # Replaces: <comma-separated list of packages>
@@ -20,4 +20,4 @@ Architecture: all
 # Extra-Files: <comma-separated list of additional files for the doc directory>
 # Files: <pair of space-separated paths; First is file to include, second is destination>
 #  <more pairs, if there's more than one file to include. Notice the starting space>
-Description: Metapackage to install essential tools
+Description: Metapackage to setup HP Elitebook 8470p

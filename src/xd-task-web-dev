@@ -8,7 +8,7 @@ Package: xd-task-web-dev
 Version: 1.0
 Maintainer: Ville Korhonen <ville@xd.fi>
 # Pre-Depends: <comma-separated list of packages>
-Depends: apache2 xd-task-python-dev
+Depends: apache2, xd-task-python-dev, mysql-server, mongodb-server, mongodb-client
 # Recommends: <comma-separated list of packages>
 # Suggests: <comma-separated list of packages>
 # Provides: <comma-separated list of packages>

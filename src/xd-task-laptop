@@ -8,7 +8,7 @@ Package: xd-task-laptop
 Version: 1.0
 Maintainer: Ville Korhonen <ville@xd.fi>
 # Pre-Depends: <comma-separated list of packages>
-Depends: xd-core openvpn
+Depends: xd-core, openvpn, chrony, pdnsd, polipo, ufw, samba
 # Recommends: <comma-separated list of packages>
 # Suggests: <comma-separated list of packages>
 # Provides: <comma-separated list of packages>
