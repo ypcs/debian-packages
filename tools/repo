@@ -1,0 +1,35 @@
+#!/bin/sh
+
+COMMAND="$1"
+
+if [ "$COMMAND" = "" ]; then
+    echo "Command missing."
+    exit 1
+fi
+
+BIN_PATH=`dirname "$0"`
+BASE_PATH=`dirname "$BIN_PATH"`
+
+SRC_PATH="$BASE_PATH/src"
+REPO_PATH="$BASE_PATH/debian"
+
+S3_BUCKET="s3://packages.xd.fi"
+DISTRIBUTIONS=`cat "$BASE_PATH/conf/distributions" |grep "Codename:" |cut -d" " -f2`
+
+
+case $COMMAND in
+    add)
+        PACKAGE="$2"
+        for d in $DISTRIBUTIONS ; do
+            reprepro -b $BASE_PATH --outdir $REPO_PATH includedeb "$d" "$PACKAGE"
+        done
+        ;;
+    sync)
+        s3cmd sync $BASE_PATH/index.html $S3_BUCKET
+        s3cmd sync $BASE_PATH/install.sh $S3_BUCKET
+        s3cmd sync $REPO_PATH $S3_BUCKET
+        ;;
+    **)
+        echo "Unknown command $COMMAND"
+        ;;
+esac
