@@ -16,18 +16,51 @@ REPO_PATH="$BASE_PATH/debian"
 S3_BUCKET="s3://packages.xd.fi"
 DISTRIBUTIONS=`cat "$BASE_PATH/conf/distributions" |grep "Codename:" |cut -d" " -f2`
 
+SYNC_TO_S3="$REPO_PATH $BASE_PATH/index.html $BASE_PATH/install.sh"
 
 case $COMMAND in
     add)
         PACKAGE="$2"
-        for d in $DISTRIBUTIONS ; do
-            reprepro -b $BASE_PATH --outdir $REPO_PATH includedeb "$d" "$PACKAGE"
+        if [ -f "$PACKAGE" ]; then
+            for d in $DISTRIBUTIONS ; do
+                reprepro -b $BASE_PATH --outdir $REPO_PATH includedeb "$d" "$PACKAGE"
+            done
+        else
+            echo "File not found: $PACKAGE"
+            exit 1
+        fi
+        ;;
+    add_all)
+        for f in "$SRC_PATH/*.deb" ; do
+            $0 add "$f"
+        done
+        ;;
+    build)
+        SRC="$2"
+        if [ -f "$SRC" ]; then
+            equivs-build "$SRC"
+        else
+            echo "File not found: $SRC"
+            exit 1
+        fi
+        ;;
+    build_all)
+        for f in `ls $SRC_PATH/*.control` ; do
+            $0 build "$f"
         done
         ;;
     sync)
-        s3cmd sync $BASE_PATH/index.html $S3_BUCKET
-        s3cmd sync $BASE_PATH/install.sh $S3_BUCKET
-        s3cmd sync $REPO_PATH $S3_BUCKET
+        for f in $SYNC_TO_S3 ; do
+            s3cmd sync "$f" $S3_BUCKET
+        done
+        ;;
+    update)
+        $0 build_all
+        $0 add_all
+        $0 sync
+        ;;
+    install-requirements)
+        apt-get install equivs s3cmd reprepro
         ;;
     **)
         echo "Unknown command $COMMAND"
