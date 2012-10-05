@@ -1,0 +1,9 @@
+Origin: xdfi
+Label: xD.fi
+Suite: testing
+Codename: wheezy
+Version: 7.0
+Architectures: amd64
+Components: main non-free contrib
+Description: xD.fi package repository
+SignWith: 0x345FDD33
