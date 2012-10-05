@@ -7,11 +7,13 @@ if [ "$COMMAND" = "" ]; then
     exit 1
 fi
 
-BIN_PATH=`dirname "$0"`
+THIS_PATH=`readlink -f "$0"`
+BIN_PATH=`dirname "$THIS_PATH"`
 BASE_PATH=`dirname "$BIN_PATH"`
 
 SRC_PATH="$BASE_PATH/src"
 REPO_PATH="$BASE_PATH/debian"
+BUILD_PATH="$BASE_PATH/build"
 
 S3_BUCKET="s3://packages.xd.fi"
 DISTRIBUTIONS=`cat "$BASE_PATH/conf/distributions" |grep "Codename:" |cut -d" " -f2`
@@ -23,7 +25,9 @@ case $COMMAND in
         PACKAGE="$2"
         if [ -f "$PACKAGE" ]; then
             for d in $DISTRIBUTIONS ; do
-                reprepro -b $BASE_PATH --outdir $REPO_PATH includedeb "$d" "$PACKAGE"
+                PKG=`basename "$PACKAGE"`
+                echo "Adding: $PKG"
+                reprepro -b $BASE_PATH --outdir $REPO_PATH includedeb "$d" "$PACKAGE" >/dev/null
             done
         else
             echo "File not found: $PACKAGE"
@@ -31,21 +35,30 @@ case $COMMAND in
         fi
         ;;
     add_all)
-        for f in "$SRC_PATH/*.deb" ; do
+        for f in $BUILD_PATH/*.deb ; do
             $0 add "$f"
         done
         ;;
     build)
         SRC="$2"
-        if [ -f "$SRC" ]; then
-            equivs-build "$SRC"
+        FULL_PATH=`readlink -f "$SRC"`
+
+        if [ ! -d "$BUILD_PATH" ]; then
+            mkdir -p $BUILD_PATH
+        fi
+        cd $BUILD_PATH
+
+        if [ -f "$FULL_PATH" ]; then
+            PKG=`basename "$FULL_PATH" |cut -d. -f1`
+            echo "Building: $PKG"
+            equivs-build "$FULL_PATH" >/dev/null
         else
-            echo "File not found: $SRC"
+            echo "File not found: $FULL_PATH"
             exit 1
         fi
         ;;
     build_all)
-        for f in `ls $SRC_PATH/*.control` ; do
+        for f in $SRC_PATH/*.control ; do
             $0 build "$f"
         done
         ;;
